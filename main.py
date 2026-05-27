@@ -33,44 +33,63 @@ def plot_fibonacci(sequence: list[int]) -> None:
 # Função start
 
 def main():
-    st.title("Fibonacci") 
-    st.set_page_config( 
-                       page_title="Fibonacci", 
-                       layout="wide" 
-                       ) 
-    col1, col2 = st.columns([1, 1]) 
-    with col1: 
-        st.subheader("Gerador") 
-        length = st.number_input( 
-                                 "Insira um número inteiro positivo:", 
-                                 min_value=3, 
-                                 max_value=20000, 
-                                 step=1 
-                                 ) 
-        if st.button("Criar sequência"): 
-            sequence = fibonacci_iterative(length) 
-            st.session_state["sequence"] = sequence 
-            st.session_state["generated"] = True 
-            st.success("Sequência gerada!") 
-            st.write(sequence) 
-            plot = plot_fibonacci(sequence) 
-            st.pyplot(plot) 
-    with col2: 
-        st.subheader("Procurar na sequência") 
-        if st.session_state.get("generated", False): 
-            number_search = st.number_input( 
-                                            "Digite o índice do termo:", 
-                                            min_value=0, 
-                                            step=1, 
-                                            key="search" 
+    st.set_page_config(
+        page_title="Fibonacci",
+        layout="wide"
+    )
+
+    st.title("Fibonacci")
+
+    # initialize session state
+    if "sequence" not in st.session_state:
+        st.session_state["sequence"] = []
+    if "generated" not in st.session_state:
+        st.session_state["generated"] = False
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.subheader("Gerador")
+
+        length = st.number_input(
+            "Insira um número inteiro positivo:",
+            min_value=3,
+            max_value=20000,
+            step=1
+        )
+
+        if st.button("Criar sequência"):
+            sequence = fibonacci_iterative(length)
+            st.session_state["sequence"] = sequence
+            st.session_state["generated"] = True
+            st.success("Sequência gerada!")
+
+        if st.session_state["generated"]:
+            sequence = st.session_state["sequence"]
+            st.write(sequence)
+
+            fig = plot_fibonacci(sequence)
+            st.pyplot(fig)
+
+    with col2:
+        st.subheader("Procurar na sequência")
+
+        if st.session_state["generated"]:
+            number_search = st.number_input(
+                "Digite o índice do termo:",
+                min_value=0,
+                step=1,
+                key="search"
             )
-            sequence = st.session_state["sequence"] 
-            if number_search < len(sequence): 
-                st.metric( 
-                          label=f"Termo {number_search}", 
-                          value=sequence[number_search], 
-                ) 
-            else: 
+
+            sequence = st.session_state["sequence"]
+
+            if number_search < len(sequence):
+                st.metric(
+                    label=f"Termo {number_search}",
+                    value=sequence[number_search],
+                )
+            else:
                 st.error("Índice fora do intervalo!")
 
 if __name__ == "__main__":
