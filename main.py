@@ -92,5 +92,7 @@ def main():
             else:
                 st.error("Índice fora do intervalo!")
 
+    st.markdown("---")
+    st.markdown("Criado por: Simão Vilas - 11ºA, nº14\nAlexandre Ferreiro - 11ºA, nº01\nFrederico Avelino - 11ºA - nº04\nRafael Silva - 11ºA - nº11")
 if __name__ == "__main__":
     main()
