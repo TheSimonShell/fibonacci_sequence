@@ -25,7 +25,7 @@ def plot_fibonacci(sequence: list[int]) -> None:
 
 
     plt.figure(figsize=(8, 8))
-    plt.plot(x, y, color="black", linewidth=2)
+    plt.plot(x, y, color="black", linewidth=1)
     plt.axis("equal")
     plt.axis("off")
     return plt
